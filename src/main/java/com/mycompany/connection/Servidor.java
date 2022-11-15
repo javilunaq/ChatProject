@@ -4,47 +4,25 @@
  */
 package com.mycompany.connection;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-public class Servidor extends Connection //Se hereda de conexión para hacer uso de los sockets y demás
-{
-    public Servidor() throws IOException{super("servidor");} //Se usa el constructor para servidor de Conexion
-
-    public void startServer()//Método para iniciar el servidor
-    {
-        try
-        {
-            System.out.println("Esperando..."); //Esperando conexión
-
-            cs = ss.accept(); //Accept comienza el socket y espera una conexión desde un cliente
-
-            System.out.println("Cliente en línea");
-
-            //Se obtiene el flujo de salida del cliente para enviarle mensajes
-            outputClient = new DataOutputStream(cs.getOutputStream());
-
-            //Se le envía un mensaje al cliente usando su flujo de salida
-            outputClient.writeUTF("Petición recibida y aceptada");
-
-            //Se obtiene el flujo entrante desde el cliente
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(cs.getInputStream()));
-
-            while((serverMessage = entrada.readLine()) != null) //Mientras haya mensajes desde el cliente
-            {
-                //Se muestra por pantalla el mensaje recibido
-                System.out.println(serverMessage);
-            }
-
-            System.out.println("Fin de la conexión");
-
-            ss.close();//Se finaliza la conexión con el cliente
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-}
+import java.net.*;  
+import java.io.*;  
+class Servidor{  
+public static void main(String args[])throws Exception{  
+ServerSocket ss=new ServerSocket(3333);  
+Socket s=ss.accept();  
+DataInputStream din=new DataInputStream(s.getInputStream());  
+DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
+  
+String str="",str2="";  
+while(!str.equals("stop")){  
+str=din.readUTF();  
+System.out.println("client says: "+str);  
+str2=br.readLine();  
+dout.writeUTF(str2);  
+dout.flush();  
+}  
+din.close();  
+s.close();  
+ss.close();  
+}}  

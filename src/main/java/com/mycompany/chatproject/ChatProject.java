@@ -5,8 +5,7 @@
 
 package com.mycompany.chatproject;
 
-import com.mycompany.connection.Cliente;
-import com.mycompany.connection.Servidor;
+
 import java.io.IOException;
 
 /**
@@ -17,14 +16,8 @@ public class ChatProject {
     
     public static void main(String[] args) throws IOException {
 
-        Servidor serv = new Servidor(); //Se crea el servidor
+       
 
-        System.out.println("Iniciando servidor\n");
-        serv.startServer(); //Se inicia el servidor
         
-        Cliente cli = new Cliente(); //Se crea el cliente
-
-        System.out.println("Iniciando cliente\n");
-        cli.startClient(); //Se inicia el cliente
     }
 }
