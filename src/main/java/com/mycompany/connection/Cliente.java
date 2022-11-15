@@ -4,33 +4,27 @@
  */
 package com.mycompany.connection;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.net.*;
+import java.io.*;
 
-public class Cliente extends Connection
-{
-    public Cliente() throws IOException{super("cliente");} //Se usa el constructor para cliente de Conexion
+class Cliente {
 
-    public void startClient() //Método para iniciar el cliente
-    {
-        try
-        {
-            //Flujo de datos hacia el servidor
-            outputServer = new DataOutputStream(cs.getOutputStream());
+    public static void main(String args[]) throws Exception {
+        Socket s = new Socket("localhost", 3333);
+        DataInputStream din = new DataInputStream(s.getInputStream());
+        DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            //Se enviarán dos mensajes
-            for (int i = 0; i < 2; i++)
-            {
-                //Se escribe en el servidor usando su flujo de datos
-                outputServer.writeUTF("Este es el mensaje número " + (i+1) + "\n");
-            }
-
-            cs.close();//Fin de la conexión
-
+        String str = "", str2 = "";
+        while (!str.equals("stop")) {
+            str = br.readLine();
+            dout.writeUTF(str);
+            dout.flush();//
+            str2 = din.readUTF();
+            System.out.println("Server says: " + str2);
         }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
+
+        dout.close();
+        s.close();
     }
 }
