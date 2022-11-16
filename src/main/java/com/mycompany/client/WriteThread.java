@@ -29,7 +29,6 @@ public class WriteThread extends Thread {
     @Override
     public void run() {
  
-        
         // Reads username
         Scanner scanner = new Scanner(System.in);
         System.out.print("Introduce tu nombre de usuario: ");
