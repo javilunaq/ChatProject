@@ -9,14 +9,16 @@ public class WriteThread extends Thread {
     private PrintWriter writer;
     private Socket socket;
     private ChatClient client;
- 
+    
+    /**
+     * Writes a thread.
+     */
     public WriteThread(Socket socket, ChatClient client) {
-        // Almacenamos socket de conexion y cliente
         this.socket = socket;
         this.client = client;
  
         try {
-            // Inicializamos el buffer de escritura
+            // Initialize the buffer for writing
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
         } catch (IOException ex) {
@@ -28,19 +30,18 @@ public class WriteThread extends Thread {
     public void run() {
  
         
-        // Leemos el nombre de usuario
+        // Reads username
         Scanner scanner = new Scanner(System.in);
         System.out.print("Introduce tu nombre de usuario: ");
         String userName = scanner.nextLine();
         
-        // Guardamos el nombre en el cliente
+        // Saves username in client
         client.setUserName(userName);
         writer.println(userName);
  
         String text;
  
         do {
-            // Mientras el mensaje no sea 'SALIR' escribimos mensajes
             System.out.print("[" + userName + "]: ");
             text = scanner.nextLine();
             writer.println(text);
@@ -48,7 +49,6 @@ public class WriteThread extends Thread {
         } while (!text.equals("SALIR"));
  
         try {
-            // Cerramos el socket
             socket.close();
         } catch (IOException ex) {
  
