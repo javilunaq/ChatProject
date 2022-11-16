@@ -15,20 +15,23 @@ import java.net.Socket;
  */
 public class Connection {
 
-    private final int PORT = 3333; //Puerto para la conexión
+    private final int PORT = 3337; //Puerto para la conexión
     private final String HOST = "localhost"; //Host para la conexión
+    
     protected String serverMessage; //Mensajes entrantes (recibidos) en el servidor
-    protected ServerSocket ss; //Socket del servidor
-    protected Socket cs; //Socket del cliente
+    
+    protected ServerSocket serverSocket; //Socket del servidor
+    protected Socket clientSocket; //Socket del cliente
+    
     protected DataOutputStream outputServer, outputClient; //Flujo de datos de salida
 
     public Connection(String type) throws IOException 
     {
         if (type.equalsIgnoreCase("server")) {
-            ss = new ServerSocket(PORT);//Se crea el socket para el servidor en puerto 1234
-            cs = new Socket(); //Socket para el cliente
+            serverSocket = new ServerSocket(PORT);//Se crea el socket para el servidor en puerto 1234
+            clientSocket = new Socket(); //Socket para el cliente
         } else {
-            cs = new Socket(HOST, PORT); //Socket para el cliente en localhost en puerto 1234
+            clientSocket = new Socket(HOST, PORT); //Socket para el cliente en localhost en puerto 1234
         }
     }
 }
