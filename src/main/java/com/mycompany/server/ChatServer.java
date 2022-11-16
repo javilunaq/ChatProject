@@ -15,10 +15,17 @@ public class ChatServer {
     // Hilos para atender a los usuarios
     private Set<UserThread> userThreads = new HashSet<>();
 
+    /**
+     * Create a new server and set the listening port.
+     * @param port Listening port
+     */
     public ChatServer(int port) {
         this.port = port;
     }
 
+    /**
+     * Starts the server.
+     */
     public void execute() {
         // El recurso se cierra al final, porque implementa java.lang.AutoCloseable
         try ( ServerSocket serverSocket = new ServerSocket(port)) {
@@ -49,8 +56,11 @@ public class ChatServer {
         ChatServer server = new ChatServer(port);
         server.execute();
     }
-
-    // Manda un mensaje a todos los usuarios, menos al emisor
+    /**
+     * Send the message to all users except the sender.
+     * @param message The content to be sent to all users.
+     * @param excludeUser The sender thread.
+     */
     void broadcast(String message, UserThread excludeUser) {
         for (UserThread aUser : userThreads) {
             if (aUser != excludeUser) {
@@ -58,13 +68,18 @@ public class ChatServer {
             }
         }
     }
-
-    // Añade el nombre de usuario a la lista de usuarios conectados
+    /**
+     * Add the new user to the list of user names.
+     * @param userName User's username.
+     */
     void addUserName(String userName) {
         userNames.add(userName);
     }
-
-    // Elimina a un usuario de la lista de usuarios conectados y de la lista de hilos
+    /**
+     * Remove an user from the list of connected users and his thread
+     * @param userName User's username.
+     * @param aUser User's thread.
+     */
     void removeUser(String userName, UserThread aUser) {
         userNames.remove(userName);
         userThreads.remove(aUser);
@@ -72,11 +87,19 @@ public class ChatServer {
 
     }
 
+    /**
+     * Get the connected users list 
+     * @return Connected user String list
+     */
     Set<String> getUserNames() {
         return this.userNames;
     }
 
-    // Comprueba si hay usuarios conectados
+    /**
+     * Check if there are users connected to the server
+     * @return True if there are users connected or False if there aren't.
+     *      
+     */
     boolean hasUsers() {
         return !this.userNames.isEmpty();
     }
