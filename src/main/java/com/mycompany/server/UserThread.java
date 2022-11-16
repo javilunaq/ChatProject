@@ -9,50 +9,54 @@ public class UserThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
     private BufferedReader reader;
-
+    /**
+     * Initializes the thread with a given socket and a reference of the server. 
+     * @param socket for the comunication.
+     * @param server a reference of the main server.
+     */
     public UserThread(Socket socket, ChatServer server) {
-        // Se almacena el socket de comunicacion y el servidor
         this.socket = socket;
         this.server = server;
     }
-
+    /**
+     * Executes the main chat tasks.
+     */
     public void run() {
         try {
-            // Se almacena el flujo de entrada del socket
+            // Stores the input stream of the socket
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
 
-            // Se almacena el flujo de salida del socket
+            // Stores the output stream of the socket
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
-            // Se muestran los usuarios conectados
+            // Shows online users
             printUsers();
 
-            // Se pide el nombre de usuario y se añade a la lista
+            // Requests an username and adds it to the list
             String userName = reader.readLine();
             server.addUserName(userName);
 
-            // Se manda un mensaje al resto de usuarios para anunciar la entrada al chat
+            // Announces that someone has just connected
             String serverMessage = "Nuevo usuario conectado: " + userName;
             server.broadcast(serverMessage, this);
 
             String clientMessage;
 
             do {
-                // En cada iteración, se lee el mensaje almacenado en el buffer y se manda al resto de usuarios
-                // hasta que el usuario introduzca la palabra "SALIR"
+                // Reads the message stored in the buffer and it gets send to the online users until the user types "SALIR"
                 clientMessage = reader.readLine();
                 serverMessage = "[" + userName + "]: " + clientMessage;
                 server.broadcast(serverMessage, this);
 
             } while (!clientMessage.equals("SALIR"));
 
-            // Se saca al usuario y se cierra la conexion
+            // Deletes the user and closes the connection
             server.removeUser(userName, this);
             socket.close();
 
-            // Se avisa al resto de usuarios de la desconexion
+            // Warns the online user that someone has just disconnected
             serverMessage = userName + " se ha desconectado.";
             server.broadcast(serverMessage, this);
 
@@ -61,7 +65,9 @@ public class UserThread extends Thread {
         }
     }
 
-    // Imprime una lista de usuarios conectados
+    /**
+     * Print the list of connected users.
+     */
     void printUsers() {
         if (server.hasUsers()) {
             writer.println("Usuarios conectados: " + server.getUserNames());
@@ -70,7 +76,10 @@ public class UserThread extends Thread {
         }
     }
 
-    // Lo utiliza broadcast() para enviar los mensajes a los clientes
+    /**
+     * Print the given message.
+     * @param message message to print.
+     */
     void sendMessage(String message) {
         writer.println(message);
     }
