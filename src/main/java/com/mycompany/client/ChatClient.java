@@ -1,4 +1,4 @@
-package com.mycompany.chatclient;
+package com.mycompany.client;
 
 import java.net.*;
 import java.io.*;
@@ -46,7 +46,7 @@ public class ChatClient {
     public static void main(String[] args) {
         
         // Definimos direccion IP y puerto al que conectarnos
-        String hostname = "localhost";
+        String hostname = "192.168.3.152";
         int port = 3337;
 
         // Lanzamos el cliente
