@@ -8,6 +8,7 @@ public class UserThread extends Thread {
     private Socket socket;
     private ChatServer server;
     private PrintWriter writer;
+    private BufferedReader reader;
 
     public UserThread(Socket socket, ChatServer server) {
         // Se almacena el socket de comunicacion y el servidor
@@ -19,7 +20,7 @@ public class UserThread extends Thread {
         try {
             // Se almacena el flujo de entrada del socket
             InputStream input = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            reader = new BufferedReader(new InputStreamReader(input));
 
             // Se almacena el flujo de salida del socket
             OutputStream output = socket.getOutputStream();
