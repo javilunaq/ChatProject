@@ -16,7 +16,7 @@ import java.net.Socket;
 public class Connection {
 
     private final int PORT = 3333; //Puerto para la conexión
-    private final String HOST = "localhost"; //Host para la conexión
+    private final String HOST = "192.168.3.152"; //Host para la conexión
     protected String serverMessage; //Mensajes entrantes (recibidos) en el servidor
     protected ServerSocket ss; //Socket del servidor
     protected Socket cs; //Socket del cliente
