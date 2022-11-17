@@ -9,7 +9,7 @@ public class UserThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
     private BufferedReader reader;
-    
+
     private boolean successful = false;
     private String clientOrder = null;
     private String username = null;
@@ -70,42 +70,52 @@ public class UserThread extends Thread {
             clientOrder = null;
             username = null;
             password = null;
-            printCommands();
+            //printCommands(); BORRAR
             try {
                 clientOrder = reader.readLine();
             } catch (IOException ex) {
                 System.out.println("[ERROR HILO]: " + ex.getMessage());
             }
-            
+
             String[] orderArguments = clientOrder.split(" ");
 
             if (orderArguments.length != 3) {
                 writer.println("400 NUMERO DE ARGUMENTOS INCORRECTO");
             } else {
-                switch (orderArguments[0]) {
-                    case "login" -> {
-                        login(orderArguments);
-                    }
-                    case "register" -> {
-                        register(orderArguments);
-                    }
-                    case default -> {
-                        writer.println("400 ORDEN NULA");
-                    }
+                String command = orderArguments[0];
+                if (command.equals("login")) {
+                    login(orderArguments);
+                } else if (command.equals("register")) {
+                    register(orderArguments);
+                } else {
+                    writer.println("400 ORDEN NULA");
                 }
+
+//                switch (orderArguments[0]) {
+//                    
+//                    case "login" :
+//                        login(orderArguments);
+//                    
+//                    case "register" :
+//                        register(orderArguments);
+//                    case default:
+//                        writer.println("400 ORDEN NULA");
+//                   
+//                }
             }
         } while (!successful);
         return username;
     }
+
     /**
-     * 
-     * @param orderArguments 
+     *
+     * @param orderArguments
      */
-    private void login(String[] orderArguments){
+    private void login(String[] orderArguments) {
         username = orderArguments[1];
         password = orderArguments[2];
         boolean autenticated = server.authenticate(username, password);
-        
+
         if (autenticated) {
             writer.println("200 AUTENTIFICACION CORRECTA");
             successful = true;
@@ -122,11 +132,12 @@ public class UserThread extends Thread {
             writer.println("401 AUTENTIFICACION FALLIDA");
         }
     }
+
     /**
-     * 
-     * @param orderArguments 
+     *
+     * @param orderArguments
      */
-    private void register(String[] orderArguments){
+    private void register(String[] orderArguments) {
         username = orderArguments[1];
         boolean userExists = server.checkUserExists(username);
 
@@ -134,12 +145,12 @@ public class UserThread extends Thread {
             writer.println("403 USUARIO YA EXISTE");
         } else {
             writer.println("200 USUARIO CREADO");
-            successful = true;
-            
+
             password = orderArguments[2];
             server.registerUser(username, password);
         }
     }
+
     /**
      * Print the list of connected users.
      */
@@ -150,17 +161,16 @@ public class UserThread extends Thread {
             writer.println("No hay usuarios conectados.");
         }
     }
-    
-    void printCommands() {
-        
-        String options = """
-                         Comandos disponibles:
-                            login       <user>  <password>
-                            register    <user>  <password>
-                         """;
-        writer.println(options);
-    }
 
+//    void printCommands() {
+//        
+//        String options = """
+//                         Comandos disponibles:
+//                            login       <user>  <password>
+//                            register    <user>  <password>
+//                         """;
+//        writer.println(options);
+//    }
     /**
      * Print the given message.
      *
