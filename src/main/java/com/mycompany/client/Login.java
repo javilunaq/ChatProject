@@ -18,17 +18,11 @@ public class Login {
         return success;
     }
     
-    public String[]  setLogin(String userName, String password){
+    public String[]  authenticate(String userName, String password){
         String[] register = new String[2];
         register[0] = userName;
         register[1] = password;
         return register;
     }
     
-    public String[]  setRegister(String userName, String password){
-        String[] register = new String[2];
-        register[0] = userName;
-        register[1] = password;
-        return register;
-    }
 }
