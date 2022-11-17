@@ -82,26 +82,21 @@ public class UserThread extends Thread {
             if (orderArguments.length != 3) {
                 writer.println("400 NUMERO DE ARGUMENTOS INCORRECTO");
             } else {
-                String command = orderArguments[0];
-                if (command.equals("login")) {
-                    login(orderArguments);
-                } else if (command.equals("register")) {
-                    register(orderArguments);
-                } else {
-                    writer.println("400 ORDEN NULA");
-                }
 
-//                switch (orderArguments[0]) {
-//                    
-//                    case "login" :
-//                        login(orderArguments);
-//                    
-//                    case "register" :
-//                        register(orderArguments);
-//                    case default:
-//                        writer.println("400 ORDEN NULA");
-//                   
-//                }
+                switch (orderArguments[0]) {
+
+                    case "login":
+                        login(orderArguments);
+                        break;
+
+                    case "register":
+                        register(orderArguments);
+                        break;
+                    case default:
+                        writer.println("400 ORDEN NULA");
+                        break;
+
+                }
             }
         } while (!successful);
         return username;
@@ -144,7 +139,7 @@ public class UserThread extends Thread {
         if (userExists) {
             writer.println("403 USUARIO YA EXISTE");
         } else {
-            writer.println("200 USUARIO CREADO");
+            writer.println("201 USUARIO CREADO");
 
             password = orderArguments[2];
             server.registerUser(username, password);
