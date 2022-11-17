@@ -70,17 +70,12 @@ public class ChatClient {
                         String response = reader.readLine();
                         String resp[] = response.split(" ");
                         switch (resp[0]) {
-                            case "200" ->{
+                            case "200" -> {
                                 logger.info(resp[1]);
-                                if (response.equals("success")) {
-                                System.out.println("Logeado");
-                            } else {
-                                System.out.println("no logeado");
-                            }
-                            System.out.println("Se ha logueado correctamente");
-                            this.userName = userName;
-                            selectOption = 0;
-                                
+                                System.out.println("Se ha logueado correctamente");
+                                this.userName = userName;
+                                selectOption = 0;
+
                             }
                             case "400" ->
                                 logger.warning(resp[1]);
