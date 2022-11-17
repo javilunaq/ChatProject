@@ -8,14 +8,18 @@ public class ReadThread extends Thread {
     private BufferedReader reader;
     private Socket socket;
     private ChatClient client;
-
+    
+    /**
+     * Reads a thread.
+     * @param socket
+     * @param client
+     */
     public ReadThread(Socket socket, ChatClient client) {
-        // Almacenamos socket de conexion y cliente
         this.socket = socket;
         this.client = client;
 
         try {
-            // Inicializamos el buffer de lectura
+            // Initialize the buffer for reading 
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
         } catch (IOException ex) {
@@ -23,15 +27,16 @@ public class ReadThread extends Thread {
         }
     }
 
+    @Override
     public void run() {
         while (true) {
             try {
-                // Lee mensajes del buffer
+                // Reads messages in buffer
                 String response = reader.readLine();
-                // Imprime el mensaje por consola
+                // Prints the messages
                 System.out.println("\n" + response);
 
-                // Imprime el nombre de usuario despues del mensaje
+                // Prints the username
                 if (client.getUserName() != null) {
                     System.out.print("[" + client.getUserName() + "]: ");
                 }

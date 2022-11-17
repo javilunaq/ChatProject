@@ -10,15 +10,23 @@ public class ChatServer {
     private int port;
 
     // Lista de nombres de usuarios conectados
-    private Set<String> userNames = new HashSet<>();
+    private Set<String> onlineUsers = new HashSet<>();
+    private HashMap<String, User> users = new HashMap<>();
 
     // Hilos para atender a los usuarios
     private Set<UserThread> userThreads = new HashSet<>();
 
+    /**
+     * Create a new server and set the listening port.
+     * @param port Listening port
+     */
     public ChatServer(int port) {
         this.port = port;
     }
 
+    /**
+     * Starts the server.
+     */
     public void execute() {
         // El recurso se cierra al final, porque implementa java.lang.AutoCloseable
         try ( ServerSocket serverSocket = new ServerSocket(port)) {
@@ -49,8 +57,11 @@ public class ChatServer {
         ChatServer server = new ChatServer(port);
         server.execute();
     }
-
-    // Manda un mensaje a todos los usuarios, menos al emisor
+    /**
+     * Send the message to all users except the sender.
+     * @param message The content to be sent to all users.
+     * @param excludeUser The sender thread.
+     */
     void broadcast(String message, UserThread excludeUser) {
         for (UserThread aUser : userThreads) {
             if (aUser != excludeUser) {
@@ -58,26 +69,65 @@ public class ChatServer {
             }
         }
     }
-
-    // Añade el nombre de usuario a la lista de usuarios conectados
-    void addUserName(String userName) {
-        userNames.add(userName);
+    /**
+     * Add a new user to the list of online users.
+     * @param userName User's username.
+     */
+    void connectUser(String userName) {
+        onlineUsers.add(userName);
     }
-
-    // Elimina a un usuario de la lista de usuarios conectados y de la lista de hilos
-    void removeUser(String userName, UserThread aUser) {
-        userNames.remove(userName);
+    /**
+     * Remove an user from the list of online users and his thread.
+     * @param userName User's username.
+     * @param aUser User's thread.
+     */
+    void disconnectUser(String userName, UserThread aUser) {
+        onlineUsers.remove(userName);
         userThreads.remove(aUser);
         System.out.println("El usuario " + userName + " se ha desconectado");
-
     }
-
-    Set<String> getUserNames() {
-        return this.userNames;
+    /**
+     * Add a new user to the list of registered users.
+     * @param userName Name of the new user.
+     * @param pass Password of the new user.
+     */
+    void registerUser(String userName, String pass) {
+        users.put(userName, new User(userName, pass));
     }
-
-    // Comprueba si hay usuarios conectados
-    boolean hasUsers() {
-        return !this.userNames.isEmpty();
+    /**
+     * Delete a user from the list of registered users.
+     * @param userName Name of the user to remove.
+     */
+    void removeUser(String userName) {
+        users.remove(userName);
+        System.out.println("El usuario " + userName + " se eliminado");
+    }
+    /**
+     * Get the online users list 
+     * @return Connected user String list
+     */
+    Set<String> getUsersOnline() {
+        return this.onlineUsers;
+    }
+    /**
+     * Get the registered users set.
+     * @return Registered user String set.
+     */
+    Set<String> getRegisteredUsers() {
+        return this.users.keySet();
+    }
+    /**
+     * Check if there are online users.
+     * @return True if there are users connected or False if there aren't.    
+     */
+    boolean hasOnlineUsers() {
+        return !this.onlineUsers.isEmpty();
+    }
+    /**
+     * Check if there are users registered on the server.
+     * @return True if there are users registered or False if there aren't.    
+     */
+    boolean hasRegisteredUsers() {
+        return !this.users.isEmpty();
     }
 }
