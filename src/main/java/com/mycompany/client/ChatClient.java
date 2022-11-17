@@ -3,11 +3,16 @@ package com.mycompany.client;
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class ChatClient {
 
     private String hostname;
     private int port;
+    private static Logger logger = Logger.getLogger("myLog");
+    private FileHandler fileHandler;
     private String userName;
     Scanner sc = new Scanner(System.in);
 
@@ -27,8 +32,22 @@ public class ChatClient {
      */
     public void execute() {
         try {
+            fileHandler = new FileHandler("src/main/resources/MyLogFile.txt");
+            logger.addHandler(fileHandler);
+            SimpleFormatter simpleFormatter = new SimpleFormatter();
+            fileHandler.setFormatter(simpleFormatter);
+        } catch (SecurityException e) {
+            logger.info("Exception:" + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            logger.info("IO Exception:" + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
             Socket socket = new Socket(hostname, port);
             System.out.println("Conectado al servidor");
+
 
             /*========== EJEMPLO COMUNICACIÓN CON EL SERVIDOR ===========*/
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
@@ -48,11 +67,20 @@ public class ChatClient {
                         System.out.println("Introduce tu contraseña");
                         psswd = sc.nextLine();
                         writer.println("login " + userName + " " + psswd);
+                        String response = reader.readLine();
+                        String resp[] = response.split(" ");
+                        switch (resp[0]) {
+                            case "200" -> {
+                                logger.info(resp[1]);
+                                System.out.println("Se ha logueado correctamente");
+                                this.userName = userName;
+                                selectOption = 0;
 
-                        if (reader.readLine().equals("200")) {
-                            System.out.println("Se ha logueado correctamente");
-                            this.userName = userName;
-                            selectOption = 0;
+                            }
+                            case "400" ->
+                                logger.warning(resp[1]);
+                            case "401" ->
+                                logger.warning(resp[1]);
                         }
                         break;
                     case 2:
@@ -61,11 +89,20 @@ public class ChatClient {
                         System.out.println("Introduce tu contraseña");
                         psswd = sc.nextLine();
                         writer.println("register " + userName + " " + psswd);
-
-                        if (reader.readLine().equals("200")) {
-                            System.out.println("---------------------------\nSe ha registrado tu usuario");
+                        response = reader.readLine();
+                        resp = response.split(" ");
+                        switch (resp[0]) {
+                            case "200" -> {
+                                logger.info(resp[1]);
+                                System.out.println("---------------------------\nSe ha registrado tu usuario");
+                            }
+                            case "400" ->
+                                logger.warning(resp[1]);
+                            case "403" ->
+                                logger.warning(resp[1]);
                         }
                         break;
+
                     case 0:
                         socket.close();
                 }
