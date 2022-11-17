@@ -2,6 +2,7 @@ package com.mycompany.client;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class ChatClient {
 
@@ -19,7 +20,24 @@ public class ChatClient {
             Socket socket = new Socket(hostname, port);
 
             System.out.println("Conectado al servidor");
-
+            
+            /*========== EJEMPLO COMUNICACIÓN CON EL SERVIDOR ===========*/
+            
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                       
+            writer.println("login");
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String response  = reader.readLine();
+            
+            if(response.equals("success")) {
+                System.out.println("Logeado");
+            } else {
+                System.out.println("no logeado");
+            }
+            
+            /*============= FIN EJEMPLO ================*/
+            
             // Inicia el hilo de lectura (mostrar por pantalla)
             new ReadThread(socket, this).start();
             // Inicia el hilo de escritura (introducir datos)
@@ -46,7 +64,7 @@ public class ChatClient {
     public static void main(String[] args) {
         
         // Definimos direccion IP y puerto al que conectarnos
-        String hostname = "192.168.3.152";
+        String hostname = "localhost"; //Luis ip: 192.168.3.152
         int port = 3337;
 
         // Lanzamos el cliente
