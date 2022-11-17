@@ -10,7 +10,8 @@ public class ChatServer {
     private int port;
 
     // Lista de nombres de usuarios conectados
-    private Set<String> userNames = new HashSet<>();
+    private Set<String> onlineUsers = new HashSet<>();
+    private HashMap<String, User> users = new HashMap<>();
 
     // Hilos para atender a los usuarios
     private Set<UserThread> userThreads = new HashSet<>();
@@ -69,38 +70,64 @@ public class ChatServer {
         }
     }
     /**
-     * Add the new user to the list of user names.
+     * Add a new user to the list of online users.
      * @param userName User's username.
      */
-    void addUserName(String userName) {
-        userNames.add(userName);
+    void connectUser(String userName) {
+        onlineUsers.add(userName);
     }
     /**
-     * Remove an user from the list of connected users and his thread
+     * Remove an user from the list of online users and his thread.
      * @param userName User's username.
      * @param aUser User's thread.
      */
-    void removeUser(String userName, UserThread aUser) {
-        userNames.remove(userName);
+    void disconnectUser(String userName, UserThread aUser) {
+        onlineUsers.remove(userName);
         userThreads.remove(aUser);
         System.out.println("El usuario " + userName + " se ha desconectado");
-
     }
-
     /**
-     * Get the connected users list 
+     * Add a new user to the list of registered users.
+     * @param userName Name of the new user.
+     * @param pass Password of the new user.
+     */
+    void registerUser(String userName, String pass) {
+        users.put(userName, new User(userName, pass));
+    }
+    /**
+     * Delete a user from the list of registered users.
+     * @param userName Name of the user to remove.
+     */
+    void removeUser(String userName) {
+        users.remove(userName);
+        System.out.println("El usuario " + userName + " se eliminado");
+    }
+    /**
+     * Get the online users list 
      * @return Connected user String list
      */
-    Set<String> getUserNames() {
-        return this.userNames;
+    Set<String> getUsersOnline() {
+        return this.onlineUsers;
     }
-
     /**
-     * Check if there are users connected to the server
-     * @return True if there are users connected or False if there aren't.
-     *      
+     * Get the registered users set.
+     * @return Registered user String set.
      */
-    boolean hasUsers() {
-        return !this.userNames.isEmpty();
+    Set<String> getRegisteredUsers() {
+        return this.users.keySet();
+    }
+    /**
+     * Check if there are online users.
+     * @return True if there are users connected or False if there aren't.    
+     */
+    boolean hasOnlineUsers() {
+        return !this.onlineUsers.isEmpty();
+    }
+    /**
+     * Check if there are users registered on the server.
+     * @return True if there are users registered or False if there aren't.    
+     */
+    boolean hasRegisteredUsers() {
+        return !this.users.isEmpty();
     }
 }

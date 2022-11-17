@@ -36,7 +36,7 @@ public class UserThread extends Thread {
 
             // Requests an username and adds it to the list
             String userName = reader.readLine();
-            server.addUserName(userName);
+            server.connectUser(userName);
 
             // Announces that someone has just connected
             String serverMessage = "Nuevo usuario conectado: " + userName;
@@ -53,7 +53,7 @@ public class UserThread extends Thread {
             } while (!clientMessage.equals("SALIR"));
 
             // Deletes the user and closes the connection
-            server.removeUser(userName, this);
+            server.disconnectUser(userName, this);
             socket.close();
 
             // Warns the online user that someone has just disconnected
@@ -69,8 +69,8 @@ public class UserThread extends Thread {
      * Print the list of connected users.
      */
     void printUsers() {
-        if (server.hasUsers()) {
-            writer.println("Usuarios conectados: " + server.getUserNames());
+        if (server.hasOnlineUsers()) {
+            writer.println("Usuarios conectados: " + server.getUsersOnline());
         } else {
             writer.println("No hay usuarios conectados.");
         }
