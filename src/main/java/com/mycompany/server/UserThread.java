@@ -9,8 +9,15 @@ public class UserThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
     private BufferedReader reader;
+
+    private boolean successful = false;
+    private String clientOrder = null;
+    private String username = null;
+    private String password = null;
+
     /**
-     * Initializes the thread with a given socket and a reference of the server. 
+     * Initializes the thread with a given socket and a reference of the server.
+     *
      * @param socket for the comunication.
      * @param server a reference of the main server.
      */
@@ -18,8 +25,9 @@ public class UserThread extends Thread {
         this.socket = socket;
         this.server = server;
     }
+
     /**
-     * Executes the main chat tasks.
+     * Executes the user thread.
      */
     public void run() {
         try {
@@ -31,17 +39,8 @@ public class UserThread extends Thread {
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
-            // Shows online users
-            printUsers();
-
-            // Requests an username and adds it to the list
-            String userName = reader.readLine();
-            server.connectUser(userName);
-
-            // Announces that someone has just connected
-            String serverMessage = "Nuevo usuario conectado: " + userName;
-            server.broadcast(serverMessage, this);
-
+            String userName = askOrder();
+            String serverMessage;
             String clientMessage;
 
             do {
@@ -65,6 +64,88 @@ public class UserThread extends Thread {
         }
     }
 
+    String askOrder() {
+        do {
+            successful = false;
+            clientOrder = null;
+            username = null;
+            password = null;
+            //printCommands(); BORRAR
+            try {
+                clientOrder = reader.readLine();
+            } catch (IOException ex) {
+                System.out.println("[ERROR HILO]: " + ex.getMessage());
+            }
+
+            String[] orderArguments = clientOrder.split(" ");
+
+            if (orderArguments.length != 3) {
+                writer.println("400 NUMERO DE ARGUMENTOS INCORRECTO");
+            } else {
+
+                switch (orderArguments[0]) {
+
+                    case "login":
+                        login(orderArguments);
+                        break;
+
+                    case "register":
+                        register(orderArguments);
+                        break;
+                    case default:
+                        writer.println("400 ORDEN NULA");
+                        break;
+
+                }
+            }
+        } while (!successful);
+        return username;
+    }
+
+    /**
+     *
+     * @param orderArguments
+     */
+    private void login(String[] orderArguments) {
+        username = orderArguments[1];
+        password = orderArguments[2];
+        boolean autenticated = server.authenticate(username, password);
+
+        if (autenticated) {
+            writer.println("200 AUTENTIFICACION CORRECTA");
+            successful = true;
+
+            printUsers();
+
+            server.connectUser(username);
+
+            // Announces that someone has just connected
+            String serverMessage = "Nuevo usuario conectado: " + username;
+            server.broadcast(serverMessage, this);
+
+        } else {
+            writer.println("401 AUTENTIFICACION FALLIDA");
+        }
+    }
+
+    /**
+     *
+     * @param orderArguments
+     */
+    private void register(String[] orderArguments) {
+        username = orderArguments[1];
+        boolean userExists = server.checkUserExists(username);
+
+        if (userExists) {
+            writer.println("403 USUARIO YA EXISTE");
+        } else {
+            writer.println("201 USUARIO CREADO");
+
+            password = orderArguments[2];
+            server.registerUser(username, password);
+        }
+    }
+
     /**
      * Print the list of connected users.
      */
@@ -76,8 +157,18 @@ public class UserThread extends Thread {
         }
     }
 
+//    void printCommands() {
+//        
+//        String options = """
+//                         Comandos disponibles:
+//                            login       <user>  <password>
+//                            register    <user>  <password>
+//                         """;
+//        writer.println(options);
+//    }
     /**
      * Print the given message.
+     *
      * @param message message to print.
      */
     void sendMessage(String message) {

@@ -36,7 +36,7 @@ public class ChatServer {
             while (true) {
                 // En cada iteracion escuchamos hasta que llega una peticion, y lanzamos un hilo que atienda al nuevo usuario
                 Socket socket = serverSocket.accept();
-                System.out.println("Nuevo usuario conectado");
+                System.out.println("Nueva conexión establecida.");
 
                 UserThread newUser = new UserThread(socket, this);
                 userThreads.add(newUser);
