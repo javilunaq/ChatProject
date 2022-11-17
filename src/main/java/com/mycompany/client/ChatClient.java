@@ -42,7 +42,7 @@ public class ChatClient {
     String getUserName() {
         return this.userName;
     }
-
+    
     public static void main(String[] args) {
         
         // Definimos direccion IP y puerto al que conectarnos
