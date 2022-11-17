@@ -9,7 +9,6 @@ public class ChatClient {
     private String hostname;
     private int port;
     private String userName;
-    private boolean isLoggedIn;
     Scanner sc = new Scanner(System.in);
 
     /**
@@ -21,7 +20,6 @@ public class ChatClient {
     public ChatClient(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
-        this.isLoggedIn = false;
     }
 
     /**
