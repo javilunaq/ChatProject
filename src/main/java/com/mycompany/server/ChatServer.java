@@ -100,7 +100,7 @@ public class ChatServer {
      */
     void removeUser(String userName) {
         users.remove(userName);
-        System.out.println("El usuario " + userName + " se eliminado");
+        System.out.println("El usuario " + userName + " se ha eliminado");
     }
     /**
      * Get the online users list 
@@ -129,5 +129,20 @@ public class ChatServer {
      */
     boolean hasRegisteredUsers() {
         return !this.users.isEmpty();
+    }
+    boolean authenticate(String userName, String password){
+        boolean loggedin = false;
+        if (checkUserExists(userName) && users.get(userName).getPassword().equals(password)){
+            loggedin=true;
+        }
+        
+        return loggedin;
+    }
+    boolean checkUserExists(String userName){
+        boolean exists = false;
+        if (users.get(userName) != null) {
+            exists = true;
+        }
+        return exists;
     }
 }
