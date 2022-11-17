@@ -82,21 +82,15 @@ public class UserThread extends Thread {
             if (orderArguments.length != 3) {
                 writer.println("400 NUMERO DE ARGUMENTOS INCORRECTO");
             } else {
-
-                switch (orderArguments[0]) {
-
-                    case "login":
-                        login(orderArguments);
-                        break;
-
-                    case "register":
-                        register(orderArguments);
-                        break;
-                    case default:
-                        writer.println("400 ORDEN NULA");
-                        break;
-
+                String option = orderArguments[0];
+                if(option.equals("login")){
+                    login(orderArguments);
+                }else if(option.equals("register")){
+                    register(orderArguments);
+                }else{
+                    writer.println("400 ORDEN NULA");
                 }
+                
             }
         } while (!successful);
         return username;
