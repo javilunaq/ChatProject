@@ -33,17 +33,15 @@ public class WriteThread extends Thread {
  
         // Reads username
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Introduce tu nombre de usuario: ");
-        String userName = scanner.nextLine();
         
         // Saves username in client
-        client.setUserName(userName);
-        writer.println(userName);
+        client.setUserName(client.getUserName());
+        writer.println(client.getUserName());
  
         String text;
  
         do {
-            System.out.print("[" + userName + "]: ");
+            System.out.print("[" + client.getUserName() + "]: ");
             text = scanner.nextLine();
             writer.println(text);
  
