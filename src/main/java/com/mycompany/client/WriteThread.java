@@ -12,6 +12,8 @@ public class WriteThread extends Thread {
     
     /**
      * Writes a thread.
+     * @param socket socket
+     * @param client client
      */
     public WriteThread(Socket socket, ChatClient client) {
         this.socket = socket;

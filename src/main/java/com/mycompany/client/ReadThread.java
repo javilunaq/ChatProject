@@ -11,8 +11,8 @@ public class ReadThread extends Thread {
     
     /**
      * Reads a thread.
-     * @param socket
-     * @param client
+     * @param socket socket  
+     * @param client client
      */
     public ReadThread(Socket socket, ChatClient client) {
         this.socket = socket;
