@@ -68,7 +68,7 @@ public class ChatClient {
                         psswd = sc.nextLine();
                         writer.println("login " + userName + " " + psswd);
                         String response = reader.readLine();
-                        String resp[] = response.split(" ");
+                        String resp[] = response.split("_");
                         switch (resp[0]) {
                             case "200" -> {
                                 logger.info(resp[1]);
@@ -90,9 +90,9 @@ public class ChatClient {
                         psswd = sc.nextLine();
                         writer.println("register " + userName + " " + psswd);
                         response = reader.readLine();
-                        resp = response.split(" ");
+                        resp = response.split("_");
                         switch (resp[0]) {
-                            case "200" -> {
+                            case "201" -> {
                                 logger.info(resp[1]);
                                 System.out.println("---------------------------\nSe ha registrado tu usuario");
                             }
