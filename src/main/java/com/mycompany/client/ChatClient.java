@@ -105,7 +105,7 @@ public class ChatClient {
                             case "403" ->
                                 logger.warning(resp[1]);
                         }
-                        if (reader.readLine().equals("200")) {
+                        if (resp[0].equals("200")) {
                             System.out.println("---------------------------\nSe ha registrado tu usuario");
                         }
                         break;
