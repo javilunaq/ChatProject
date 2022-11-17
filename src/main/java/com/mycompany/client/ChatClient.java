@@ -70,16 +70,9 @@ public class ChatClient {
                         String response = reader.readLine();
                         String resp[] = response.split(" ");
                         switch (resp[0]) {
-                            case "200" ->
+                            case "200" ->{
                                 logger.info(resp[1]);
-                            case "400" ->
-                                logger.warning(resp[1]);
-                            case "401" ->
-                                logger.warning(resp[1]);
-                        }
-                        if (resp[0].equals("200")) {
-
-                            if (response.equals("success")) {
+                                if (response.equals("success")) {
                                 System.out.println("Logeado");
                             } else {
                                 System.out.println("no logeado");
@@ -87,6 +80,12 @@ public class ChatClient {
                             System.out.println("Se ha logueado correctamente");
                             this.userName = userName;
                             selectOption = 0;
+                                
+                            }
+                            case "400" ->
+                                logger.warning(resp[1]);
+                            case "401" ->
+                                logger.warning(resp[1]);
                         }
                         break;
                     case 2:
@@ -98,15 +97,14 @@ public class ChatClient {
                         response = reader.readLine();
                         resp = response.split(" ");
                         switch (resp[0]) {
-                            case "200" ->
+                            case "200" -> {
                                 logger.info(resp[1]);
+                                System.out.println("---------------------------\nSe ha registrado tu usuario");
+                            }
                             case "400" ->
                                 logger.warning(resp[1]);
                             case "403" ->
                                 logger.warning(resp[1]);
-                        }
-                        if (resp[0].equals("200")) {
-                            System.out.println("---------------------------\nSe ha registrado tu usuario");
                         }
                         break;
 
