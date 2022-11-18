@@ -103,9 +103,11 @@ public class UserThread extends Thread {
     private void login(String[] orderArguments) {
         username = orderArguments[1];
         password = orderArguments[2];
-        boolean autenticated = server.authenticate(username, password);
+        int autenticated = server.authenticate(username, password);
 
-        if (autenticated) {
+
+        if (autenticated == 0) {
+
             writer.println("200_AUTENTIFICACION CORRECTA");
             successful = true;
 
@@ -117,9 +119,12 @@ public class UserThread extends Thread {
             String serverMessage = "Nuevo usuario conectado: " + username;
             server.broadcast(serverMessage, this);
 
-        } else {
+
+        } else if (autenticated == 1){
             writer.println("401_AUTENTIFICACION FALLIDA");
-        }
+        } else
+            writer.println("403_USUARIO YA CONECTADO");
+
     }
 
     /**
