@@ -4,11 +4,13 @@
  */
 package com.mycompany.server;
 
+import java.io.Serializable;
+
 /**
  *
  * @author etovarna
  */
-public class User {
+public class User implements Serializable {
     
     private String username, password;
     

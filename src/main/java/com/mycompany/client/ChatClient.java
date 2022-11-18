@@ -55,7 +55,7 @@ public class ChatClient {
             int selectOption;
             do {
                 this.logInMenu();
-                selectOption = Integer.parseInt(sc.nextLine());
+                selectOption = askOption(3);
                 String userName;
                 String psswd;
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -68,7 +68,7 @@ public class ChatClient {
                         psswd = sc.nextLine();
                         writer.println("login " + userName + " " + psswd);
                         String response = reader.readLine();
-                        String resp[] = response.split(" ");
+                        String resp[] = response.split("_");
                         switch (resp[0]) {
                             case "200" -> {
                                 logger.info(resp[1]);
@@ -90,9 +90,9 @@ public class ChatClient {
                         psswd = sc.nextLine();
                         writer.println("register " + userName + " " + psswd);
                         response = reader.readLine();
-                        resp = response.split(" ");
+                        resp = response.split("_");
                         switch (resp[0]) {
-                            case "200" -> {
+                            case "201" -> {
                                 logger.info(resp[1]);
                                 System.out.println("---------------------------\nSe ha registrado tu usuario");
                             }
@@ -146,6 +146,24 @@ public class ChatClient {
                            | 0. CERRAR CONEXIÓN """);
         System.out.println("---------------------------");
     }
+    
+    private static int askOption(int numberOfOptions) {
+        Scanner sc = new Scanner(System.in);
+        int selectedOption;
+        do {
+            try {
+                selectedOption = sc.nextInt();
+            } catch (Exception e) {
+                selectedOption = -1;
+                sc.next();
+            }
+            if (selectedOption < 0 || selectedOption > numberOfOptions - 1) {
+                System.out.println("Elige una opción válida");
+            }
+        } while (selectedOption < 0 || selectedOption > numberOfOptions - 1);
+
+        return selectedOption;
+    } 
 
     public static void main(String[] args) {
 

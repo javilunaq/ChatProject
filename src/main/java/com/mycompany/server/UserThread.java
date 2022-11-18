@@ -80,7 +80,7 @@ public class UserThread extends Thread {
             String[] orderArguments = clientOrder.split(" ");
 
             if (orderArguments.length != 3) {
-                writer.println("400 NUMERO DE ARGUMENTOS INCORRECTO");
+                writer.println("400_NUMERO DE ARGUMENTOS INCORRECTO");
             } else {
                 String option = orderArguments[0];
                 if(option.equals("login")){
@@ -88,7 +88,7 @@ public class UserThread extends Thread {
                 }else if(option.equals("register")){
                     register(orderArguments);
                 }else{
-                    writer.println("400 ORDEN NULA");
+                    writer.println("400_ORDEN NULA");
                 }
                 
             }
@@ -106,7 +106,7 @@ public class UserThread extends Thread {
         boolean autenticated = server.authenticate(username, password);
 
         if (autenticated) {
-            writer.println("200 AUTENTIFICACION CORRECTA");
+            writer.println("200_AUTENTIFICACION CORRECTA");
             successful = true;
 
             printUsers();
@@ -118,7 +118,7 @@ public class UserThread extends Thread {
             server.broadcast(serverMessage, this);
 
         } else {
-            writer.println("401 AUTENTIFICACION FALLIDA");
+            writer.println("401_AUTENTIFICACION FALLIDA");
         }
     }
 
@@ -131,9 +131,9 @@ public class UserThread extends Thread {
         boolean userExists = server.checkUserExists(username);
 
         if (userExists) {
-            writer.println("403 USUARIO YA EXISTE");
+            writer.println("403_USUARIO YA EXISTE");
         } else {
-            writer.println("201 USUARIO CREADO");
+            writer.println("201_USUARIO CREADO");
 
             password = orderArguments[2];
             server.registerUser(username, password);
