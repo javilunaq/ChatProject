@@ -1,2 +1,2 @@
-nov 17, 2022 4:56:12 P. M. com.mycompany.client.ChatClient execute
+nov 18, 2022 10:15:26 A. M. com.mycompany.client.ChatClient execute
 INFO: AUTENTIFICACION CORRECTA
