@@ -69,7 +69,7 @@ public class ChatServer {
         try {
             FileOutputStream myFileOutStream
                     = new FileOutputStream(
-                            "C:\\Users\\mreyesma\\Desktop\\ProyectoFinal\\ChatProject\\data\\usersData.txt");
+                            "data/usersData.txt");
 
             ObjectOutputStream myObjectOutStream
                     = new ObjectOutputStream(myFileOutStream);
