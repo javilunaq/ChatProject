@@ -166,9 +166,9 @@ public class ChatClient {
     } 
 
     public static void main(String[] args) {
-
+        
         // We define the IP direction and the port
-        String hostname = "localhost"; //Luis ip: 192.168.3.152
+        String hostname = "localhost"; //Luis ip: 192.168.3.152  Manuel ip: 192.168.3.129
         int port = 3337;
 
         // We launch the client

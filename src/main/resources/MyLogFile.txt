@@ -1,2 +1,6 @@
-nov 17, 2022 4:56:12 P. M. com.mycompany.client.ChatClient execute
+<<<<<<< HEAD
+nov 18, 2022 10:15:26 A. M. com.mycompany.client.ChatClient execute
+=======
+nov 18, 2022 9:59:56 A. M. com.mycompany.client.ChatClient execute
+>>>>>>> 81b47416ef5d1096058b6b480aa9c9b4de92e87d
 INFO: AUTENTIFICACION CORRECTA
