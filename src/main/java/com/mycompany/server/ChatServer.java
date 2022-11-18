@@ -90,7 +90,7 @@ public class ChatServer {
     public void loadData() {
         try {
             FileInputStream fileInput = new FileInputStream(
-                    "C:\\Users\\mreyesma\\Desktop\\ProyectoFinal\\ChatProject\\data\\usersData.txt");
+                    "data/usersData.txt");
 
             if (fileInput.available() != 0) {
                 ObjectInputStream objectInput
