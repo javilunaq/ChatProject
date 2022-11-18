@@ -1,12 +1,7 @@
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-nov 18, 2022 10:15:26 A. M. com.mycompany.client.ChatClient execute
-=======
-nov 18, 2022 9:59:56 A. M. com.mycompany.client.ChatClient execute
->>>>>>> 81b47416ef5d1096058b6b480aa9c9b4de92e87d
-=======
-nov 18, 2022 10:18:54 A. M. com.mycompany.client.ChatClient execute
+nov 18, 2022 10:18:54 A.ï¿½M. com.mycompany.client.ChatClient execute
 INFO: USUARIO CREADO
-nov 18, 2022 10:19:22 A. M. com.mycompany.client.ChatClient execute
->>>>>>> Stashed changes
+nov 18, 2022 10:19:22 A.ï¿½M. com.mycompany.client.ChatClient execute
+
 INFO: AUTENTIFICACION CORRECTA
+
+nov 18, 2022 10:15:26 A.Â M. com.mycompany.client.ChatClient execute
