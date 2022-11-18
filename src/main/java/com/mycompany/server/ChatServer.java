@@ -69,7 +69,9 @@ public class ChatServer {
         try {
             FileOutputStream myFileOutStream
                     = new FileOutputStream(
+
                             "data/usersData.txt");
+
 
             ObjectOutputStream myObjectOutStream
                     = new ObjectOutputStream(myFileOutStream);
@@ -195,17 +197,30 @@ public class ChatServer {
 
     /**
      * Check if there are users registered on the server.
+<<<<<<< Updated upstream
      *
+=======
+>>>>>>> Stashed changes
      * @return True if there are users registered or False if there aren't.
      */
     boolean hasRegisteredUsers() {
         return !this.users.isEmpty();
     }
 
-    boolean authenticate(String userName, String password) {
-        boolean loggedin = false;
+    /**
+     * 
+     * @param userName
+     * @param password
+     * @return 0 if the user has been authenticated successfully, 1 if not authenticated, 2 if the user is already online. 
+     */
+    int authenticate(String userName, String password) {
+        int loggedin = 1;
         if (checkUserExists(userName) && users.get(userName).getPassword().equals(password)) {
-            loggedin = true;
+            if(!onlineUsers.contains(userName))
+                loggedin = 0;
+            else
+                loggedin = 2;
+
         }
 
         return loggedin;
