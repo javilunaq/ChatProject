@@ -61,7 +61,7 @@ public class ChatClient {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 switch (selectOption) {
-                    case 1:
+                    case 1 -> {
                         System.out.println("Introduce tu nombre de usuario");
                         userName = sc.nextLine();
                         System.out.println("Introduce tu contraseña");
@@ -81,15 +81,15 @@ public class ChatClient {
                             case "401" ->
                                 logger.warning(resp[1]);
                         }
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("Introduce tu nombre de usuario");
                         userName = sc.nextLine();
                         System.out.println("Introduce tu contraseña");
                         psswd = sc.nextLine();
                         writer.println("register " + userName + " " + psswd);
-                        response = reader.readLine();
-                        resp = response.split("_");
+                        String response = reader.readLine();
+                        String[] resp = response.split("_");
                         switch (resp[0]) {
                             case "201" -> {
                                 logger.info(resp[1]);
@@ -100,11 +100,9 @@ public class ChatClient {
                             case "403" ->
                                 logger.warning(resp[1]);
                         }
-                        break;
+                    }
 
-                    case 0:
-                        socket.close();
-                        break;
+                    case 0 -> socket.close();
                 }
 
             } while (selectOption != 0);
