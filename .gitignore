@@ -1,7 +1,5 @@
 /target/
-/data/usersData.txt
-/src/main/resources/MyLogFile.txt
-
+/src/main/resources/*
 # Compiled class file
 *.class
 

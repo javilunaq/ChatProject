@@ -64,6 +64,12 @@ public class UserThread extends Thread {
         }
     }
 
+    public String getUsername() {
+        return username;
+    }
+    
+    
+
     String askOrder() {
         do {
             successful = false;
