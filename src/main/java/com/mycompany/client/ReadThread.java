@@ -8,6 +8,7 @@ public class ReadThread extends Thread {
     private BufferedReader reader;
     private Socket socket;
     private ChatClient client;
+    private boolean firstTime = true;
     
     /**
      * Reads a thread.
@@ -37,9 +38,10 @@ public class ReadThread extends Thread {
                 System.out.println("\n" + response);
 
                 // Prints the username
-                if (client.getUserName() != null) {
+                if (!this.firstTime) {
                     System.out.print("[" + client.getUserName() + "]: ");
                 }
+                firstTime = false;
             } catch (IOException ex) {
                 System.out.println("[ERROR LECTURA]: " + ex.getMessage());
                 break;

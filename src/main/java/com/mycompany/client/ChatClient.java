@@ -61,7 +61,7 @@ public class ChatClient {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 switch (selectOption) {
-                    case 1:
+                    case 1 -> {
                         System.out.println("Introduce tu nombre de usuario");
                         userName = sc.nextLine();
                         System.out.println("Introduce tu contraseña");
@@ -75,22 +75,23 @@ public class ChatClient {
                                 System.out.println("Se ha logueado correctamente");
                                 this.userName = userName;
                                 selectOption = 0;
-
                             }
                             case "400" ->
                                 logger.warning(resp[1]);
                             case "401" ->
                                 logger.warning(resp[1]);
+                            default -> 
+                                logger.warning(resp[1]);
                         }
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("Introduce tu nombre de usuario");
                         userName = sc.nextLine();
                         System.out.println("Introduce tu contraseña");
                         psswd = sc.nextLine();
                         writer.println("register " + userName + " " + psswd);
-                        response = reader.readLine();
-                        resp = response.split("_");
+                        String response = reader.readLine();
+                        String[] resp = response.split("_");
                         switch (resp[0]) {
                             case "201" -> {
                                 logger.info(resp[1]);
@@ -100,11 +101,11 @@ public class ChatClient {
                                 logger.warning(resp[1]);
                             case "403" ->
                                 logger.warning(resp[1]);
+                            default -> 
+                                logger.warning(resp[1]);
                         }
-                        break;
-
-                    case 0:
-                        socket.close();
+                    }
+                    case 0 -> socket.close();
                 }
 
             } while (selectOption != 0);
@@ -166,9 +167,9 @@ public class ChatClient {
     } 
 
     public static void main(String[] args) {
-
+        
         // We define the IP direction and the port
-        String hostname = "localhost"; //Luis ip: 192.168.3.152
+        String hostname = "localhost"; //Luis ip: 192.168.3.152  Manuel ip: 192.168.3.129
         int port = 3337;
 
         // We launch the client
