@@ -75,7 +75,6 @@ public class ChatClient {
                                 System.out.println("Se ha logueado correctamente");
                                 this.userName = userName;
                                 selectOption = 0;
-
                             }
                             case "400" ->
                                 logger.warning(resp[1]);
@@ -105,6 +104,7 @@ public class ChatClient {
 
                     case 0:
                         socket.close();
+                        break;
                 }
 
             } while (selectOption != 0);
