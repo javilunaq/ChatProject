@@ -80,6 +80,8 @@ public class ChatClient {
                                 logger.warning(resp[1]);
                             case "401" ->
                                 logger.warning(resp[1]);
+                            default -> 
+                                logger.warning(resp[1]);
                         }
                     }
                     case 2 -> {
@@ -99,9 +101,10 @@ public class ChatClient {
                                 logger.warning(resp[1]);
                             case "403" ->
                                 logger.warning(resp[1]);
+                            default -> 
+                                logger.warning(resp[1]);
                         }
                     }
-
                     case 0 -> socket.close();
                 }
 
